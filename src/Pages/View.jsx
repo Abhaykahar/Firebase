@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../Component/Header'
+import { useDispatch, useSelector } from 'react-redux'
+import { ViewUsers } from '../Redux/action/crud';
 
 const View = () => {
+  const dispatch=useDispatch();
+  
+
+  useEffect(()=>{
+    dispatch(ViewUsers());
+  },[])
+
+  const user=useSelector(state=>state.crud.users);
+
   return (
     <div>
       <Header/>
@@ -18,7 +29,17 @@ const View = () => {
     </tr>
   </thead>
   <tbody>
- 
+    {
+      user.map((val,index)=>{
+        return(
+          <tr key={++index}>
+            <td>{++index}</td>
+            <td>{val.name}</td>
+            <td>{val.phone}</td>
+          </tr>
+        )
+      })
+    }
   </tbody>
 </table>
 
