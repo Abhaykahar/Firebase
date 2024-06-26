@@ -23,6 +23,11 @@ const CrudReducers = (state=initialState,action) =>{
                 userList:[...state.userList],
                 error:null
             }
+        case 'adderror':
+                return{
+                    ...state,
+                    error:action.payload
+                }
 
     
 

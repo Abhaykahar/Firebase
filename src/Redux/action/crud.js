@@ -37,7 +37,10 @@ export const Adduser = (user) =>{
                 type:'addrecord'
             })
         }catch(err){
-
+            dispatch({
+                type:'adderror',
+                payload:err,
+            });
         }
     }
 }
