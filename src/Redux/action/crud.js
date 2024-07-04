@@ -1,4 +1,4 @@
-import { addDoc, collection,  getDocs, getFirestore } from "firebase/firestore"
+import { addDoc, collection,  deleteDoc,  doc,  getDoc,  getDocs, getFirestore } from "firebase/firestore"
 import app from "../../firebaseconfig";
 
 const db=getFirestore(app);
@@ -31,7 +31,12 @@ export const Adduser = (user) =>{
         try{
             await addDoc(collection(db,"Firebase-Firestore"),{
                 name:user.name,
-                phone:user.phone
+                email:user.email,
+                password:user.password,
+                gender : user.gender,
+                course : user.course,
+                department : user.department,
+                date : user.date
             })
             dispatch({
                 type:'addrecord'
@@ -39,6 +44,48 @@ export const Adduser = (user) =>{
         }catch(err){
             dispatch({
                 type:'adderror',
+                payload:err,
+            });
+        }
+    }
+}
+
+
+export const deleteRecord = (id) =>{
+    return async(dispatch)=>{
+        try{
+            let deleteData= await doc(db,'Firebase-Firestore',id);
+            await deleteDoc(deleteData);
+            alert("delete sucessfully...");
+            dispatch({
+                type:'delete',
+                payload:id
+            })
+
+        }catch(err){
+            dispatch({
+                type:'deleteerror',
+                payload:err,
+            });
+        }
+    }
+}
+
+export const editUser = (id) =>{
+    
+    return async(dispatch)=>{
+        try{
+            let record = await doc(db,'Firebase-Firestore',id);
+            
+            let single = await getDoc(record);
+            
+            dispatch({
+                type:'edit',
+                payload:single.data()
+            })
+        }catch(err){
+            dispatch({
+                type:'editerror',
                 payload:err,
             });
         }
