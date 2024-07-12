@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import View from "./Pages/View"
 import Add from "./Pages/Add"
 import Edit from "./Pages/Edit"
+import Login from "./Pages/Login"
 
 function App() {
 
@@ -11,8 +12,9 @@ function App() {
   <>
     <BrowserRouter>
       <Routes>
+      <Route path="/" element={<Login/>}/>
         <Route path="/view" element={<View/>}/>
-        <Route path="/" element={<Add/>}/>
+        <Route path="/add" element={<Add/>}/>
         <Route path="/edit/:editid" element={<Edit/>}/>
       </Routes>
     </BrowserRouter>

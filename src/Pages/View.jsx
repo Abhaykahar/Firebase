@@ -2,14 +2,22 @@ import React, { useEffect } from 'react'
 import Header from '../Component/Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { ViewUsers, deleteRecord } from '../Redux/action/crud';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const View = () => {
   const dispatch=useDispatch();
+  const Navigate=useNavigate();
   
 
   useEffect(()=>{
     dispatch(ViewUsers());
+  },[])
+
+  useEffect(()=>{
+    let token=localStorage.getItem('token');
+    if(!token){
+      Navigate('/');
+    }
   },[])
 
   const user=useSelector(state=>state.crud.users);

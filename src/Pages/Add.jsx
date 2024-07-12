@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from "../Component/Header"
 import { useDispatch } from 'react-redux';
 import { Adduser } from '../Redux/action/crud';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebaseconfig';
 
 
 const Add = () => {
@@ -17,14 +19,20 @@ const Add = () => {
 
   const dispatch = useDispatch()
 
+
+
+
+  useEffect(()=>{
+    let token=localStorage.getItem('token');
+    if(!token){
+      Navigate('/');
+    }
+  },[])
+
   const handle = (e) => {
     e.preventDefault();
-    if( !name || !email || !password || !gender || !course || !date || !department){
-      alert("All fill reuired");
-      return false;
-    }
+  
     
-
     let obj = {
       name: name,
       email: email,
@@ -35,10 +43,14 @@ const Add = () => {
       department: department
     }
 
+    if( !name || !email || !password || !gender || !course || !date || !department){
+      alert("All fill reuired");
+      return false;
+    }
+
     dispatch(Adduser(obj));
     alert("add sucessfully....");
     Navigate('/view')
-
   }
 
 
@@ -53,6 +65,17 @@ const Add = () => {
       }
     })
   }
+
+  const logout = async() =>{
+    try{
+      await signOut(auth);
+      localStorage.removeItem('token');
+      Navigate('/')
+    }catch(err){
+      console.log(err);
+      return false;
+    }
+}
   return (
     <div>
       <Header />
@@ -103,6 +126,7 @@ const Add = () => {
               </div>
 
               <button type="submit" className="btn btn-success mx-auto d-block mt-4">Submit</button>
+              <button onClick={()=> logout()}>Logout</button>
             </form>
           </div>
 

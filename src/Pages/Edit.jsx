@@ -19,6 +19,13 @@ const Edit = () => {
     dispatch(editUser(editid));
   },[])
 
+  useEffect(()=>{
+    let token=localStorage.getItem('token');
+    if(!token){
+      Navigate('/');
+    }
+  },[])
+
  
   useEffect(() => {
       setname(single?.name);
